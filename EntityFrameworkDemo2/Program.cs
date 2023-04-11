@@ -1,6 +1,9 @@
 ﻿//using DemoAPI.Db;
 using EntityFrameworkDemo2.Db;
 using Microsoft.EntityFrameworkCore;
+using EntityFrameworkDemo2.Controllers;
+using EntityFrameworkDemo2.Interfaces;
+using EntityFrameworkDemo2.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +14,26 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+//// using InMemory Database
+//builder.Services.AddDbContext<DemoDbContext>(options =>
+//    {
+//        options.UseInMemoryDatabase(databaseName: "AuthorDb");
+//    });
+
+builder.Services.AddScoped<IAuthorRepository, AuthorRepository>();
+
+
+// using UseSqlServer
 builder.Services.AddDbContext<DemoDbContext>(options => options.UseSqlServer(
     builder.Configuration.GetConnectionString("Default")
     ));
+
+
+
+builder.Services.AddControllers().AddNewtonsoftJson(options => 
+     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 //builder.Services.AddControllers().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
@@ -34,5 +54,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+//app.MapUserEndpoints();
 
 app.Run();

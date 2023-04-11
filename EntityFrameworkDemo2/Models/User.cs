@@ -9,5 +9,8 @@
     public string? MiddleName { get; set; }
 
     public string? LastName { get; set; }
+
+
+    public virtual UserAddress? Address { get; set; }
 }
 
