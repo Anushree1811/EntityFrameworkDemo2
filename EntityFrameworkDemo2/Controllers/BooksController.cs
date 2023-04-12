@@ -16,6 +16,21 @@ public class BooksController : ControllerBase
         _context = context;
     }
 
+    // POST: api/Books
+    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+    [HttpPost]
+    public async Task<ActionResult<Book>> PostBook(Book book)
+    {
+        if (_context.Books == null)
+        {
+            return Problem("Entity set 'DemoDbContext.Books'  is null.");
+        }
+        _context.Books.Add(book);
+        await _context.SaveChangesAsync();
+
+        return CreatedAtAction("GetBook", new { id = book.Id }, book);
+    }
+
     // GET: api/Books
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
@@ -74,21 +89,6 @@ public class BooksController : ControllerBase
         }
 
         return NoContent();
-    }
-
-    // POST: api/Books
-    // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPost]
-    public async Task<ActionResult<Book>> PostBook(Book book)
-    {
-        if (_context.Books == null)
-        {
-            return Problem("Entity set 'DemoDbContext.Books'  is null.");
-        }
-        _context.Books.Add(book);
-        await _context.SaveChangesAsync();
-
-        return CreatedAtAction("GetBook", new { id = book.Id }, book);
     }
 
     // DELETE: api/Books/5
