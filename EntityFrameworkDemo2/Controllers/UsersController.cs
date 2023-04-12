@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using EntityFrameworkDemo2.Db;
-using EntityFrameworkDemo2.Models;
+using EntityFrameworkDemo.Db;
+using EntityFrameworkDemo.Models;
 
-namespace EntityFrameworkDemo2.Controllers
+namespace EntityFrameworkDemo.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-using EntityFrameworkDemo2.Models;
-using EntityFrameworkDemo2.Interfaces;
+using EntityFrameworkDemo.Models;
+using EntityFrameworkDemo.Interfaces;
 
 
-namespace EntityFrameworkDemo2.Controllers;
+namespace EntityFrameworkDemo.Controllers;
 
     [Route("api/[controller]")]
     [ApiController]

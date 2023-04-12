@@ -1,6 +1,6 @@
-﻿using EntityFrameworkDemo2.Models;
+﻿using EntityFrameworkDemo.Models;
 
-namespace EntityFrameworkDemo2.Interfaces;
+namespace EntityFrameworkDemo.Interfaces;
 
 public interface IAuthorRepository
 {

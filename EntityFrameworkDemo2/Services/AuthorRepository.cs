@@ -1,10 +1,10 @@
-﻿using EntityFrameworkDemo2.Db;
-using EntityFrameworkDemo2.Interfaces;
-using EntityFrameworkDemo2.Models;
+﻿using EntityFrameworkDemo.Db;
+using EntityFrameworkDemo.Interfaces;
+using EntityFrameworkDemo.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace EntityFrameworkDemo2.Services;
+namespace EntityFrameworkDemo.Services;
 
 public class AuthorRepository : IAuthorRepository
 {

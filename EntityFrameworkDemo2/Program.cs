@@ -1,6 +1,6 @@
-﻿using EntityFrameworkDemo2.Db;
-using EntityFrameworkDemo2.Interfaces;
-using EntityFrameworkDemo2.Services;
+﻿using EntityFrameworkDemo.Db;
+using EntityFrameworkDemo.Interfaces;
+using EntityFrameworkDemo.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

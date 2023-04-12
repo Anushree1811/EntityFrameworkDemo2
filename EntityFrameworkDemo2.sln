@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFrameworkDemo2", "EntityFrameworkDemo2\EntityFrameworkDemo2.csproj", "{9DAB22E2-6A94-4D13-AA6C-82CFB7581687}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityFrameworkDemo", "EntityFrameworkDemo2\EntityFrameworkDemo.csproj", "{9DAB22E2-6A94-4D13-AA6C-82CFB7581687}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

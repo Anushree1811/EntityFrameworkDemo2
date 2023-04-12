@@ -1,7 +1,7 @@
-﻿using EntityFrameworkDemo2.Models;
+﻿using EntityFrameworkDemo.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace EntityFrameworkDemo2.Db;
+namespace EntityFrameworkDemo.Db;
 
 public class DemoDbContext : DbContext
 {
