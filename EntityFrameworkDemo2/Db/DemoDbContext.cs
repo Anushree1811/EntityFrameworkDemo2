@@ -20,7 +20,7 @@ public class DemoDbContext : DbContext
 
     public DbSet<Book> Books { get; set; }
 
-    //Not wanted at the meoment
+    //Not need at the meoment
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
