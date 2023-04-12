@@ -8,18 +8,18 @@ namespace EntityFrameworkDemo.Services;
 
 public class AuthorRepository : IAuthorRepository
 {
-    private readonly DemoDbContext context;
+    private readonly DemoDbContext _context;
 
     public AuthorRepository(DemoDbContext context)
     {
-        this.context = context;
+        _context = context;
+
+        Intializer();
     }
 
-    public AuthorRepository()
+    private void Intializer()
     {
- 
-        
-            var authors = new List<Author>
+        var authors = new List<Author>
                 {
                 new Author
                 {
@@ -27,9 +27,11 @@ public class AuthorRepository : IAuthorRepository
                     LastName ="Kanjilal",
                        Books = new List<Book>()
                     {
-                        new Book { Title = "Mastering C# 8.0"},
-                        new Book { Title = "Entity Framework Tutorial"},
-                        new Book { Title = "ASP.NET 4.0 Programming"}
+                        new Book { Title = "Mastering C# 8.0", FeedBackRequiredKeyword="twat",
+                        Price=12
+                        },
+                       // new Book { Title = "Entity Framework Tutorial"},
+                       // new Book { Title = "ASP.NET 4.0 Programming"}
                     }
                 },
                 new Author
@@ -38,25 +40,23 @@ public class AuthorRepository : IAuthorRepository
                     LastName ="Kanetkar",
                     Books = new List<Book>()
                     {
-                        new Book { Title = "Let us C"},
-                        new Book { Title = "Let us C++"},
-                        new Book { Title = "Let us C#"}
+                        new Book { Title = "Let us C",FeedBackRequiredKeyword="twat",
+                        Price=12},
+                       // new Book { Title = "Let us C++"},
+                        //new Book { Title = "Let us C#"}
                     }
                 }
                 };
-        context.Authors.AddRange(authors);
-            context.SaveChanges();
-        
+        _context.Authors.AddRange(authors);
+        _context.SaveChanges();
+
     }
     public List<Author> GetAuthors()
     {
-        
-            var list = context.Authors
-                .Include(a => a.Books)
-                .ToList();
-            return list;
-        
 
+        var list = _context.Authors
+            .Include(a => a.Books)
+            .ToList();
+        return list;
     }
-    
 }
