@@ -1,4 +1,4 @@
-namespace EntityFrameworkDemo2
+namespace EntityFrameworkDemo2.Models
 {
     public class WeatherForecast
     {
