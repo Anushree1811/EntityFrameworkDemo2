@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "EntityFrameworkDemo2": {
+    "EntityFrameworkDemo": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
