@@ -26,26 +26,11 @@ namespace EntityFrameworkDemo2.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
          
-            return await _context.Users.Include(x=>x.Address).ToListAsync();
+            return await _context.Users
+                .Include(x=>x.Address)
+                .ToListAsync();
         }
 
-       
-
-        // POST: api/Users
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<User>> AddUserWithAddress(User user)
-        {
-          
-             user.Id = Guid.NewGuid();
-            user.Address.Id = Guid.NewGuid();//pk
-            user.Address.UserId = user.Id; // user pk as fk in address
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            return Ok(user);
-        }
 
 
         // POST: api/Users/attach
@@ -70,17 +55,21 @@ namespace EntityFrameworkDemo2.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            if (_context.Users == null)
-            {
-                return NotFound();
-            }
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users.Include(u => u.Address).FirstOrDefaultAsync(u => u.Id == id);
+
             if (user == null)
             {
                 return NotFound();
             }
 
             _context.Users.Remove(user);
+
+            // Also delete the associated UserAddress if it exists
+            if (user.Address != null)
+            {
+                _context.UserAddress.Remove(user.Address);
+            }
+
             await _context.SaveChangesAsync();
 
             return NoContent();
