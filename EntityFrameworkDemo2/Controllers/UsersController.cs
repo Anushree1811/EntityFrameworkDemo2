@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EntityFrameworkDemo2.Db;
 using EntityFrameworkDemo2.Models;
+using EntityFrameworkDemo2.DTO;
 
 namespace EntityFrameworkDemo2.Controllers
 {
@@ -23,31 +24,70 @@ namespace EntityFrameworkDemo2.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
          
-            return await _context.Users
+            var users = await _context.Users
                 .Include(x=>x.Address)
                 .ToListAsync();
+
+
+            var userDTOs = users.Select(user => new UserDTO
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                MiddleName = user.MiddleName,
+                LastName = user.LastName,
+                Address = user.Address != null ? new UserAddressDTO
+                {
+                    Id = user.Address.Id,
+                    AddressLine1 = user.Address.AddressLine1,
+                    AddressLine2 = user.Address.AddressLine2,
+                    City = user.Address.City,
+                    Country = user.Address.Country
+                } : null
+            }).ToList();
+
+            return userDTOs;
         }
 
 
 
         // POST: api/Users/attach
         [HttpPost("attach")]
-        public async Task<ActionResult<User>> AttachUser(User user)
+        public async Task<ActionResult<UserDTO>> AttachUser([FromBody]UserDTO userDTO)
         {
-            try
+
+            if (userDTO == null) {
+
+                return BadRequest(userDTO);
+            }
+
+            var user = new User
             {
+                Id = userDTO.Id,
+                FirstName = userDTO.FirstName,
+                MiddleName = userDTO.MiddleName,
+                LastName = userDTO.LastName,
+                Address = userDTO.Address != null ? new UserAddress {
+
+                    Id = userDTO.Address.Id,
+                    AddressLine1 = userDTO.Address.AddressLine1,
+                    AddressLine2 = userDTO.Address.AddressLine2,
+                    City = userDTO.Address.City,
+                    Country = userDTO.Address.Country
+
+
+                }:null
+
+            };
+
+    
                 _context.Users.Attach(user);
                 await _context.SaveChangesAsync();
 
-                return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
-            }
+                return Ok(userDTO);
+            
         }
 
 
@@ -78,31 +118,37 @@ namespace EntityFrameworkDemo2.Controllers
        // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(Guid id, User user)
+        public async Task<IActionResult>PutUser(Guid id,[FromBody] UserDTO userDTO)
         {
-            if (id != user.Id)
+            var user = await _context.Users.FindAsync(id);
+
+            if (user == null)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            user.FirstName= userDTO.FirstName;
+            user.LastName= userDTO.LastName;
+            user.MiddleName= userDTO.MiddleName;
 
-            try
+            if (userDTO.Address != null)
             {
-                await _context.SaveChangesAsync();
+                if (user.Address == null)
+                {
+                    user.Address = new UserAddress();
+                }
+
+                user.Address.AddressLine1 = userDTO.Address.AddressLine1;
+                user.Address.AddressLine2 = userDTO.Address.AddressLine2;
+                user.Address.City = userDTO.Address.City;
+                user.Address.Country = userDTO.Address.Country;
             }
-            catch (DbUpdateConcurrencyException)
+            else
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                user.Address = null;
             }
 
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
