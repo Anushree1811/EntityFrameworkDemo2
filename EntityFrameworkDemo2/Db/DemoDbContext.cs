@@ -10,6 +10,13 @@ public class DemoDbContext : DbContext
 
     }
 
+    public DbSet<Student> Students { get; set; }
+
+    public DbSet<Mark> Marks { get; set; }
+    public DbSet<Team> Teams { get; set; }
+
+
+
     public DbSet<User> Users { get; set; }
 
     public DbSet<BankAccount> BankAccounts { get; set; }
@@ -18,7 +25,9 @@ public class DemoDbContext : DbContext
 
     public DbSet<Author> Authors { get; set; }
 
-    public DbSet<Book> Books { get; set; }
+    public DbSet<Book> Books { get; set; } 
+    
+    public DbSet<Vessel> Vessels { get; set; }
 
     //Not need at the meoment
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

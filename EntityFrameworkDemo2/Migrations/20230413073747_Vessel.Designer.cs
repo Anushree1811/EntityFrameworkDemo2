@@ -4,6 +4,7 @@ using EntityFrameworkDemo.Db;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,13 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EntityFrameworkDemo.Migrations
 {
     [DbContext(typeof(DemoDbContext))]
-    partial class DemoDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230413073747_Vessel")]
+    partial class Vessel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -107,71 +110,6 @@ namespace EntityFrameworkDemo.Migrations
                     b.ToTable("Books");
                 });
 
-            modelBuilder.Entity("EntityFrameworkDemo.Models.Mark", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MarkObtained")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxMark")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Marks");
-                });
-
-            modelBuilder.Entity("EntityFrameworkDemo.Models.Student", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Students");
-                });
-
-            modelBuilder.Entity("EntityFrameworkDemo.Models.Team", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teams");
-                });
-
             modelBuilder.Entity("EntityFrameworkDemo.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -243,21 +181,6 @@ namespace EntityFrameworkDemo.Migrations
                     b.ToTable("Vessels");
                 });
 
-            modelBuilder.Entity("StudentTeam", b =>
-                {
-                    b.Property<int>("StudentListId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeamListId")
-                        .HasColumnType("int");
-
-                    b.HasKey("StudentListId", "TeamListId");
-
-                    b.HasIndex("TeamListId");
-
-                    b.ToTable("StudentTeam");
-                });
-
             modelBuilder.Entity("EntityFrameworkDemo.Models.Book", b =>
                 {
                     b.HasOne("EntityFrameworkDemo.Models.Author", "Author")
@@ -265,13 +188,6 @@ namespace EntityFrameworkDemo.Migrations
                         .HasForeignKey("AuthorId");
 
                     b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("EntityFrameworkDemo.Models.Mark", b =>
-                {
-                    b.HasOne("EntityFrameworkDemo.Models.Student", null)
-                        .WithMany("MarkList")
-                        .HasForeignKey("StudentId");
                 });
 
             modelBuilder.Entity("EntityFrameworkDemo.Models.UserAddress", b =>
@@ -283,29 +199,9 @@ namespace EntityFrameworkDemo.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("StudentTeam", b =>
-                {
-                    b.HasOne("EntityFrameworkDemo.Models.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EntityFrameworkDemo.Models.Team", null)
-                        .WithMany()
-                        .HasForeignKey("TeamListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("EntityFrameworkDemo.Models.Author", b =>
                 {
                     b.Navigation("Books");
-                });
-
-            modelBuilder.Entity("EntityFrameworkDemo.Models.Student", b =>
-                {
-                    b.Navigation("MarkList");
                 });
 
             modelBuilder.Entity("EntityFrameworkDemo.Models.User", b =>
