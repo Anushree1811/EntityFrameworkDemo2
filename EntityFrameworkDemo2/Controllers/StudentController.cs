@@ -1,4 +1,4 @@
-﻿using EntityFrameworkDemo.Db;
+using EntityFrameworkDemo.Db;
 using EntityFrameworkDemo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -20,9 +20,29 @@ namespace EntityFrameworkDemo.Controllers
         }
         // GET: api/<StudentController>
         [HttpGet]
-        public async Task<IEnumerable<string>> GetAsync()
+        public async Task <List<TeamListViewModel>> GetAsync()
         {
-            Student s1 = new Student()
+            //Student s1 = new Student()
+            //{
+            //    FirstName = "Vipin",
+            //    LastName = "kumar PS",
+
+            //    MarkList = new List<Mark>()
+            //    {
+            //        new Mark() { Name = "Biology", MarkObtained = 100 },
+            //        new Mark() { Name = "Botany", MarkObtained = 100 }
+            //    },
+
+            //    TeamList = new List<Team>()
+            //    {
+            //       new Team() {Name="Chess"},
+            //      new Team() {Name="Table Tennis"}
+            //    }
+            //};
+            //dbContext.Students.Add(s1);
+            //await dbContext.SaveChangesAsync();
+
+            Student s2 = new Student()
             {
                 FirstName = "Vishnu",
                 LastName = "kumar",
@@ -40,10 +60,23 @@ namespace EntityFrameworkDemo.Controllers
                 }
             };
 
-            dbContext.Students.Add(s1);
+            dbContext.Students.Add(s2);
             await dbContext.SaveChangesAsync();
+           
 
-            return new string[] { "value1", "value2" };
+            List<TeamListViewModel>? result = await dbContext.Teams.Include(x => x.StudentList).Select(team=> new TeamListViewModel()
+            {
+                TeamName = team.Name,
+                StudentList=team.StudentList.Select(student=> new StudentViewModel()
+                {
+                    LastName = student.LastName,
+                    FirstName = student.FirstName,
+                }).ToList()
+
+            } ).ToListAsync();
+
+
+            return result;
         }
 
         // GET api/<StudentController>/5
