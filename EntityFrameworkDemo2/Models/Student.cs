@@ -1,4 +1,6 @@
-﻿namespace EntityFrameworkDemo.Models;
+using Newtonsoft.Json;
+
+namespace EntityFrameworkDemo.Models;
 
 public class Student
 {
@@ -8,9 +10,10 @@ public class Student
 
     public string? LastName { get; set; }
 
-    public List<Mark>? MarkList { get; set; } = new();
+    public List<Mark>? MarkList { get; set; } = new(); //1 to Many
 
-    public List<Team>? TeamList { get; set; } = new();
+    
+    public List<Team>? TeamList { get; set; } = new(); // Manay To Many
 
 
 }
@@ -33,7 +36,7 @@ public class Team
 
     public string Name { get; set; }=null!;
 
-    public List<Student>? StudentList { get; set; } = new();
+    public List<Student>? StudentList { get; set; } = new(); //Manay to Many
 
 }
 
@@ -54,4 +57,17 @@ public class StudentListViewModel
 
     
 
+}
+
+public class TeamListViewModel
+{
+    public string TeamName { get; set; }
+    public List<StudentViewModel>? StudentList { get; set; } = new();
+}
+
+public class StudentViewModel
+{
+    public string FirstName { get; set; }
+
+    public string? LastName { get; set; }
 }
